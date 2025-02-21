@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { UserButton } from "@clerk/nextjs"
-import { usePathname } from "next/navigation"
+import { UserButton } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 
 export const NavbarRoutes = () => {
-    const pathname = usePathname();
-    const isEditorPage = pathname?.startsWith("/editor");
-  const isWriterPage = pathname?.includes("/article")
-  const isSearchPage =pathname === "/search";
+  const pathname = usePathname();
+  const isEditorPage = pathname?.startsWith("/editor");
+  const isWriterPage = pathname?.includes("/writers");
+  const isSearchPage = pathname === "/search";
   return (
-    <> 
+    <>
       {isSearchPage && (
         <div className="hidden md:block">
-          <SearchInput/>
+          <SearchInput />
         </div>
       )}
       <div className="flex gap-x-2 ml-auto">
@@ -36,6 +36,6 @@ export const NavbarRoutes = () => {
         )}
         <UserButton afterSwitchSessionUrl="/" />
       </div>
-      </>
-    );
-}
+    </>
+  );
+};
