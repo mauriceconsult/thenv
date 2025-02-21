@@ -1,14 +1,26 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
 
-const WritersPage = () => {
+const WritersPage = async () => {
+  const { userId } = await auth();
+  if (!userId) {
+    return redirect("/");
+  }
+  const topics = await db.writer.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return (
-    <Link href={"/editor/create"}>
-      <div>
-        <Button className="p-6">New Topic</Button>
-      </div>
-    </Link>
+    <div className="p-6">
+      <DataTable columns={columns} data={topics} />
+    </div>
   );
 };
-
 export default WritersPage;
