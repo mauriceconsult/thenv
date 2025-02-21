@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(writer);
   } catch (error) {
-    console.log("{WRITERS", error);
+    console.log("[WRITERS]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

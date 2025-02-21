@@ -5,7 +5,7 @@ const WritersPage = () => {
   return (
     <Link href={"/editor/create"}>
       <div>
-        <Button className="p-6">New writer</Button>
+        <Button className="p-6">New Topic</Button>
       </div>
     </Link>
   );

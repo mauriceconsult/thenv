@@ -15,6 +15,7 @@ model Writer {
   imageUrl    String?   @db.Text
   isPublished Boolean   @default(false)
   categoryId  String?
+  articles    Article[]
   category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -26,4 +27,17 @@ model Category {
   id      String   @id @default(uuid())
   name    String   @unique
   writers Writer[]
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  imageUrl    String?  @db.Text
+  position    Int
+  isPublished Boolean  @default(false)
+  writerId    String
+  writer      Writer   @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
