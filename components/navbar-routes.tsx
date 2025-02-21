@@ -5,13 +5,20 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { SearchInput } from "./search-input";
 
 export const NavbarRoutes = () => {
     const pathname = usePathname();
-    // const router = useRouter();
     const isEditorPage = pathname?.startsWith("/editor");
-    const isWriterPage = pathname?.includes("/article")
-    return (
+  const isWriterPage = pathname?.includes("/article")
+  const isSearchPage =pathname === "/search";
+  return (
+    <> 
+      {isSearchPage && (
+        <div className="hidden md:block">
+          <SearchInput/>
+        </div>
+      )}
       <div className="flex gap-x-2 ml-auto">
         {isEditorPage || isWriterPage ? (
           <Link href={"/"}>
@@ -29,5 +36,6 @@ export const NavbarRoutes = () => {
         )}
         <UserButton afterSwitchSessionUrl="/" />
       </div>
+      </>
     );
 }
