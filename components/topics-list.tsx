@@ -19,7 +19,7 @@ export const TopicsList = ({ items }: TopicsListProps) => {
             id={item.id}
             title={item.title}
             imageUrl={item.imageUrl!}
-            articlesLength={item.articles.length}
+            articlesLength={item.articles.length!}
             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
             category={item?.category?.name!}
           />

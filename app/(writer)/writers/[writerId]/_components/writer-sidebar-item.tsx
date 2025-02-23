@@ -16,7 +16,7 @@ const WriterSidebarItem = ({ label, id, writerId }: WriterSidebarItemProps) => {
   const Icon = CircleArrowRight;
   const isActive = pathname?.includes(id);
   const onClick = () => {
-    router.push(`writers/${writerId}/articles/${id}`);
+    router.push(`/writers/${writerId}/articles/${id}`);
   };
   return (
     <button

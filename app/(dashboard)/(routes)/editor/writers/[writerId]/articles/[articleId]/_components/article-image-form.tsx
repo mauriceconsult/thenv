@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Article } from "@prisma/client";
 import Image from "next/image";
 import { FileUpload } from "@/components/file-upload";
+import { isEditor } from "@/lib/editor";
 
 interface ArticleImageFormProps {
   initialData: Article;
@@ -54,7 +55,7 @@ export const ArticleImageForm = ({
               Upload article image
             </>
           )}
-          {!isEditing && initialData.imageUrl && (
+          {!isEditing && isEditor() && initialData.imageUrl && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
               Edit article image

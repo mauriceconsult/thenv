@@ -14,11 +14,7 @@ interface ActionsProps {
   isPublished: boolean;
 }
 
-export const Actions = ({
-  disabled,
-  writerId,
-  isPublished,
-}: ActionsProps) => {
+export const Actions = ({ disabled, writerId, isPublished }: ActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const onClick = async () => {

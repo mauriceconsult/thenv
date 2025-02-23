@@ -1,20 +1,23 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+import { useAuth, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
+import { isEditor } from "@/lib/editor";
 
 export const NavbarRoutes = () => {
+  const { userId } = useAuth();
   const pathname = usePathname();
   const isEditorPage = pathname?.startsWith("/editor");
   const isWriterPage = pathname?.includes("/writers");
   const isSearchPage = pathname === "/search";
+  const isHomePage = pathname === "/"
   return (
     <>
-      {isSearchPage && (
+      {isSearchPage || isHomePage && (
         <div className="hidden md:block">
           <SearchInput />
         </div>
@@ -27,13 +30,13 @@ export const NavbarRoutes = () => {
               Exit
             </Button>
           </Link>
-        ) : (
+        ) : isEditor(userId) ? (
           <Link href={"editor/writers"}>
             <Button size={"sm"} variant={"ghost"}>
               Editor mode
             </Button>
           </Link>
-        )}
+        ): null}
         <UserButton afterSwitchSessionUrl="/" />
       </div>
     </>
