@@ -35,7 +35,7 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post("/api/writers", values);
+      const response = await axios.post("/api/editor/create", values);
         router.push(`/editor/writers/${response.data.id}`);
         toast.success("Topic created.")
     } catch {
