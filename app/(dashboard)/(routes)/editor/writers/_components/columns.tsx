@@ -63,7 +63,7 @@ export const columns: ColumnDef<Writer>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/editor/editor/writers/${id}`}>
+            <Link href={`/editor/writers/${id}`}>
               <DropdownMenuItem>
                 <Pencil className="h-4 w-4 mr-2" />
                 Edit
