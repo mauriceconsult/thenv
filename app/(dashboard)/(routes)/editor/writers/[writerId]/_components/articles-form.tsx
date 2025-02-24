@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 import { Article, Writer } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import { ArticlesList } from "./articles-list";
-// import { ArticlesList } from "./articles-list";
 
 interface ArticlesFormProps {
   initialData: Writer & { articles: Article[] };
