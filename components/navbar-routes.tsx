@@ -7,6 +7,7 @@ import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { isEditor } from "@/lib/editor";
+import { Suspense } from "react";
 
 export const NavbarRoutes = () => {
   const { userId } = useAuth();
@@ -14,14 +15,17 @@ export const NavbarRoutes = () => {
   const isEditorPage = pathname?.startsWith("/editor");
   const isWriterPage = pathname?.includes("/writers");
   const isSearchPage = pathname === "/search";
-  const isHomePage = pathname === "/"
+  const isHomePage = pathname === "/";
   return (
     <>
-      {isSearchPage || isHomePage && (
-        <div className="hidden md:block">
-          <SearchInput />
-        </div>
-      )}
+      {isSearchPage ||
+        (isHomePage && (
+          <div className="hidden md:block">
+            <Suspense fallback={<>Loading...</>}>
+              <SearchInput />
+            </Suspense>
+          </div>
+        ))}
       <div className="flex gap-x-2 ml-auto">
         {isEditorPage || isWriterPage ? (
           <Link href={"/"}>
@@ -36,7 +40,7 @@ export const NavbarRoutes = () => {
               Editor mode
             </Button>
           </Link>
-        ): null}
+        ) : null}
         <UserButton afterSwitchSessionUrl="/" />
       </div>
     </>
