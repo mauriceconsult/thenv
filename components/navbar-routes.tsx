@@ -18,31 +18,30 @@ export const NavbarRoutes = () => {
   const isHomePage = pathname === "/";
   return (
     <>
-      {isSearchPage ||
-        (isHomePage && (
-          <div className="hidden md:block">
-            <Suspense fallback={<>Loading...</>}>
-              <SearchInput />
-            </Suspense>
-          </div>
-        ))}
-      <div className="flex gap-x-2 ml-auto">
-        {isEditorPage || isWriterPage ? (
-          <Link href={"/"}>
-            <Button size={"sm"} variant={"ghost"}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Exit
-            </Button>
-          </Link>
-        ) : isEditor(userId) ? (
-          <Link href={"editor/writers"}>
-            <Button size={"sm"} variant={"ghost"}>
-              Editor mode
-            </Button>
-          </Link>
-        ) : null}
-        <UserButton afterSwitchSessionUrl="/" />
-      </div>
+      {isSearchPage || isHomePage ? (
+        <div className="hidden md:block">
+          <Suspense fallback={<>Loading...</>}>
+            <SearchInput />
+          </Suspense>
+        </div>
+      ) : (
+        <div className="flex gap-x-2 ml-auto">
+          {isEditorPage || isWriterPage ? (
+            <Link href={"/"}>
+              <Button size={"sm"} variant={"ghost"}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Exit
+              </Button>
+            </Link>
+          ) : isEditor(userId) ? (
+            <Link href={"editor/writers"}>
+              <Button size={"sm"} variant={"ghost"}>
+                Editor mode
+              </Button>
+            </Link>
+          ) : null}
+          <UserButton afterSwitchSessionUrl="/" />
+        </div>)}
     </>
   );
 };
