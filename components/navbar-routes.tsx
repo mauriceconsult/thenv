@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
+import { isEditor } from "@/lib/editor";
 import { Suspense } from "react";
 
 export const NavbarRoutes = () => {
-  useAuth();
+  const { userId } = useAuth();
   const pathname = usePathname();
   const isEditorPage = pathname?.startsWith("/editor");
   const isWriterPage = pathname?.includes("/writers");
@@ -25,20 +26,20 @@ export const NavbarRoutes = () => {
         </div>
       ) : (
         <div className="flex gap-x-2 ml-auto">
-            {isEditorPage || isWriterPage && (
-              <Link href={"/"}>
-                <Button size={"sm"} variant={"ghost"}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Exit
-                </Button>
-              </Link>
-            )} : isEditor ? (
+          {isEditorPage || isWriterPage ? (
+            <Link href={"/"}>
+              <Button size={"sm"} variant={"ghost"}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Exit
+              </Button>
+            </Link>
+          ) : isEditor(userId) ? (
             <Link href={"editor/writers"}>
               <Button size={"sm"} variant={"ghost"}>
                 Editor mode
               </Button>
             </Link>
-          ) : null
+          ) : null}
           <UserButton afterSwitchSessionUrl="/" />
         </div>)}
     </>
