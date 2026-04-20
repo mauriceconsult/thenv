@@ -34,7 +34,7 @@ export const NavbarRoutes = () => {
               </Button>
             </Link>
           ) : isEditor(userId) ? (
-            <Link href={"editor/writers"}>
+            <Link href="editor/writers">
               <Button size={"sm"} variant={"ghost"}>
                 Editor mode
               </Button>

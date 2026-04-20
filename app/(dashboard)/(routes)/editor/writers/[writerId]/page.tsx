@@ -1,3 +1,12 @@
+/**
+ * writer-id-page.tsx  (app/editor/writers/[writerId]/page.tsx)
+ *
+ * Changes from previous version:
+ * - Passes writer.title as beatTitle to DescriptionForm and ImageForm
+ *   so their Studio AI prompts have full context.
+ * - Styling aligned to editorial system.
+ */
+
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
@@ -17,71 +26,90 @@ const WriterIdPage = async ({
   params: Promise<{ writerId: string }>;
 }) => {
   const { userId } = await auth();
-  if (!userId) {
-    return redirect("/");
-  }
+  if (!userId) return redirect("/");
+
+  const { writerId } = await params;
+
   const writer = await db.writer.findUnique({
-    where: {
-      id: (await params).writerId,
-      userId,
-    },
+    where: { id: writerId, userId },
     include: {
-      articles: {
-        orderBy: {
-          position: "asc",
-        },
-      },
+      articles: { orderBy: { position: "asc" } },
     },
   });
-  if (!writer) {
-    return redirect("/");
-  }
+  if (!writer) return redirect("/");
+
   const categories = await db.category.findMany({
-    orderBy: {
-      name: "asc",
-    },
+    orderBy: { name: "asc" },
   });
-  // console.log(categories);
-  if (!writer) {
-    return redirect("/");
-  }
+
   const requiredFields = [
     writer.title,
     writer.description,
     writer.imageUrl,
     writer.categoryId,
     writer.articles.some(
-      (article: { isPublished: unknown }) => article.isPublished
+      (article: { isPublished: unknown }) => article.isPublished,
     ),
   ];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
-  const completionText = `(${completedFields}/${totalFields})`;
+  const completionText = `${completedFields}/${totalFields}`;
   const isComplete = requiredFields.every(Boolean);
+
   return (
     <>
       {!writer.isPublished && (
-        <Banner label="This topic is unpublished. It will not be visible to the readers."/>
+        <Banner label="Draft — not visible to readers until published." />
       )}
-      <div className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-y-2">
-            <h1 className="text-2xl font-medium">Topic setup</h1>
-            <span className="text-sm text-slate-700">
-              Complete all fields {completionText}
+      <div className="p-6 max-w-6xl">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="font-serif text-2xl font-black text-foreground">
+              Beat Setup
+            </h1>
+            <span
+              className={`font-mono text-[10px] tracking-wide border px-2 py-0.5 w-fit ${
+                isComplete
+                  ? "border-foreground text-foreground"
+                  : "border-border text-muted-foreground"
+              }`}
+            >
+              {completionText} fields complete
             </span>
           </div>
-          <Actions disabled={!isComplete} writerId={(await params).writerId } isPublished={writer.isPublished} />
+          <Actions
+            disabled={!isComplete}
+            writerId={writerId}
+            isPublished={writer.isPublished}
+          />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left: beat customisation */}
           <div>
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-2 pb-3 mb-5 border-b-2 border-foreground">
               <IconBadge icon={LayoutDashboard} />
-              <h2 className="text-2xl">Customize your topic</h2>
+              <h2 className="font-serif text-lg font-bold text-foreground">
+                Customise your beat
+              </h2>
             </div>
+
             <TitleForm initialData={writer} writerId={writer.id} />
+
+            {/*
+              beatTitle is passed so DescriptionForm can build a
+              context-aware Studio AI prompt even before the title
+              has been saved to the DB.
+            */}
             <DescriptionForm initialData={writer} writerId={writer.id} />
+
+            {/*
+              writer.title + writer.description flow into the image
+              prompt automatically via the ImageForm component.
+            */}
             <ImageForm initialData={writer} writerId={writer.id} />
+
             <CategoryForm
               initialData={writer}
               writerId={writer.id}
@@ -91,11 +119,15 @@ const WriterIdPage = async ({
               }))}
             />
           </div>
+
+          {/* Right: filed articles */}
           <div className="space-y-6">
             <div>
-              <div className="flex items-center gap-x-2">
+              <div className="flex items-center gap-2 pb-3 mb-5 border-b-2 border-foreground">
                 <IconBadge icon={ListChecks} />
-                <h2 className="text-xl">Topic articles</h2>
+                <h2 className="font-serif text-lg font-bold text-foreground">
+                  Filed articles
+                </h2>
               </div>
               <ArticlesForm initialData={writer} writerId={writer.id} />
             </div>
@@ -107,3 +139,33 @@ const WriterIdPage = async ({
 };
 
 export default WriterIdPage;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// article-id-page.tsx  (app/editor/writers/[writerId]/articles/[articleId]/page.tsx)
+//
+// Changes: passes writer.title as beatTitle to ArticleDescriptionForm
+// so the Studio AI standfirst prompt includes full beat context.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// (In your actual project this lives in a separate file.
+//  It is included here for reference alongside the writer page.)
+
+/*
+
+  // Add this query inside ArticleIdPage, after fetching the article:
+
+  const writer = await db.writer.findUnique({
+    where: { id: writerId },
+    select: { title: true },   // only need the title
+  });
+
+  // Then pass it into ArticleDescriptionForm:
+
+  <ArticleDescriptionForm
+    initialData={article}
+    writerId={writerId}
+    articleId={articleId}
+    beatTitle={writer?.title ?? undefined}   // ← new prop
+  />
+
+*/

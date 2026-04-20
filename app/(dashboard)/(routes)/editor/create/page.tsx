@@ -35,7 +35,7 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post("/api/editor/create", values);
+      const response = await axios.post("/api/writers", values);
         router.push(`/editor/writers/${response.data.id}`);
         toast.success("Topic created.")
     } catch {
@@ -45,9 +45,10 @@ const CreatePage = () => {
   return (
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
       <div>
-        <h1 className="text-2xl">Name your topic</h1>
-        <p className="text-sm text-slate-600">
-          A topic allows to classify many articles under one umbrella
+        <h1 className="font-playfair text-4xl font-black">Name your beat</h1>
+        <p className="italic text-muted-foreground border-l-2 pl-3">
+          A beat organises your reporting — every article, source, and
+          perspective filed under one defining subject.
         </p>
         <Form {...form}>
           <form
@@ -59,7 +60,9 @@ const CreatePage = () => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Writer Topic</FormLabel>
+                  <FormLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Beat / Topic title
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
@@ -75,13 +78,13 @@ const CreatePage = () => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Link href={"/"}>
-                <Button type="button" variant={"ghost"}>
+              <Link href="/">
+                <Button type="button" variant="ghost">
                   Cancel
                 </Button>
               </Link>
               <Button type="submit" disabled={isSubmitting || !isValid}>
-                Continue
+                File this beat
               </Button>
             </div>
           </form>

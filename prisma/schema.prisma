@@ -38,6 +38,13 @@ model Article {
   isPublished Boolean  @default(false)
   writerId    String
   writer      Writer   @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  
+mediaFormat  String?   @default("Text")
+mediaUrl     String?
+mediaCaption String?
+galleryUrls  String[]
+audioUrl     String?
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
