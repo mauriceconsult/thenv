@@ -21,6 +21,10 @@ import { Article } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { StudioAIButton } from "@/components/studio-ai";
 
+// Strips HTML tags for plain-text display in the standfirst preview.
+// The description may arrive as HTML if it was previously edited in a rich-text field.
+const stripHtml = (html: string) =>
+  html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -62,7 +66,7 @@ export const ArticleDescriptionForm = ({
     try {
       await axios.patch(
         `/api/writers/${writerId}/articles/${articleId}`,
-        values
+        { description: stripHtml(values.description) }
       );
       toast.success("Article updated.");
       setIsEditing(false);
@@ -125,7 +129,7 @@ export const ArticleDescriptionForm = ({
         <div className="px-3.5 py-3">
           {initialData.description ? (
             <p className="font-serif text-sm italic text-foreground leading-relaxed">
-              {initialData.description}
+              {stripHtml(initialData.description)}
             </p>
           ) : (
             <p className="font-serif text-sm italic text-muted-foreground/50">

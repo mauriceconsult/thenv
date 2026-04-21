@@ -22,7 +22,7 @@ export const columns: ColumnDef<Writer>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Topic
+          Beat
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
