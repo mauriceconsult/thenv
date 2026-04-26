@@ -1,17 +1,19 @@
 "use client";
 
 /**
- * studio-ai.tsx
+ * src/components/studio-ai.tsx  (Zuria)
  *
- * Single source of truth for all Studio AI integration points.
+ * Wires Zuria → Studio via the platform manager cross-app auth.
  *
- * TODAY  — navigates to /studio with a pre-filled prompt via URL params.
- * LATER  — swap openStudioAI() body to call your cross-app API / SDK instead.
- *          Nothing in the consuming components needs to change.
+ * Flow:
+ *   1. POST /api/studio/mint (local Zuria proxy — keeps API key server-side)
+ *   2. Redirect to Studio /auth/cross?token=xxx&prompt=...&type=...
+ *   3. Studio redeems token, signs user in, opens the right generation page
  */
 
 import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -25,35 +27,65 @@ export type StudioGenerationType =
 
 export interface StudioAIOptions {
   type: StudioGenerationType;
-  /** The context prompt sent to Studio — build this from the surrounding form's data */
+  /** Context prompt built from surrounding form data */
   prompt: string;
-  /**
-   * Called with the generated value when Studio returns a result.
-   * Wired up once the Studio API is live — ignored in the URL-based stub.
-   */
+  /** Called with the generated value once Studio API supports callbacks */
   onResult?: (value: string) => void;
 }
 
-// ─── Core utility (swap this body when Studio API is ready) ──────────────────
+// ─── Core utility ─────────────────────────────────────────────────────────────
 
-export function openStudioAI(
+// Add NEXT_PUBLIC_STUDIO_URL to Zuria's .env.local — same value as STUDIO_URL
+const STUDIO_URL = process.env.NEXT_PUBLIC_STUDIO_URL ?? "http://localhost:3000";
+
+const TYPE_ROUTE: Record<StudioGenerationType, string> = {
+  image:       "/image-generations",
+  description: "/text-generations",
+  headline:    "/text-generations",
+  script:      "/text-generations",
+  captions:    "/text-generations",
+};
+
+export async function openStudioAI(
   options: StudioAIOptions,
   router: ReturnType<typeof useRouter>
-) {
+): Promise<void> {
+  // 1. Mint token via local proxy (keeps PLATFORM_API_KEY server-side)
+  let token: string;
+  try {
+    const res = await fetch("/api/studio/mint", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: "Unknown" }));
+      throw new Error(error);
+    }
+
+    token = (await res.json()).token;
+  } catch (err) {
+    console.error("[StudioAI] Failed to mint token:", err);
+    window.open(STUDIO_URL, "_blank");
+    return;
+  }
+
+  // 2. Build cross-auth URL with context preserved
   const params = new URLSearchParams({
-    prompt: options.prompt,
-    type: options.type,
-    // returnTo lets Studio know where to send the result back
+    token,
+    prompt:   options.prompt,
+    type:     options.type,
     returnTo: window.location.pathname,
   });
-  router.push(`/studio?${params.toString()}`);
+
+  router.push(`${STUDIO_URL}/auth/cross?${params.toString()}`);
 }
 
 // ─── Button variants ──────────────────────────────────────────────────────────
 
 interface StudioAIButtonProps {
   options: StudioAIOptions;
-  /** "inline" sits next to a form label; "block" renders below a field as a full suggestion bar */
+  /** "inline" sits next to a form label; "block" renders as a full-width suggestion bar */
   variant?: "inline" | "block";
   className?: string;
 }
@@ -64,6 +96,7 @@ export function StudioAIButton({
   className,
 }: StudioAIButtonProps) {
   const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
 
   const LABELS: Record<StudioGenerationType, string> = {
     description: "Generate with Studio AI",
@@ -73,45 +106,65 @@ export function StudioAIButton({
     headline:    "Suggest headline in Studio AI",
   };
 
+  const handleClick = async () => {
+    if (isPending) return;
+    setIsPending(true);
+    try {
+      await openStudioAI(options, router);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   if (variant === "block") {
     return (
       <button
         type="button"
-        onClick={() => openStudioAI(options, router)}
+        onClick={handleClick}
+        disabled={isPending}
         className={cn(
           "w-full flex items-center justify-between px-3 py-2.5",
           "border border-dashed border-border",
           "bg-muted/20 hover:bg-muted/40 hover:border-foreground",
-          "transition-all group",
+          "transition-all group disabled:opacity-50 disabled:cursor-not-allowed",
           className
         )}
       >
         <span className="flex items-center gap-2">
-          <Sparkles className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition" />
+          <Sparkles className={cn(
+            "w-3 h-3 text-muted-foreground group-hover:text-foreground transition",
+            isPending && "animate-pulse"
+          )} />
           <span className="font-mono text-[9px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition">
-            Studio AI
+            {isPending ? "Opening Studio…" : "Studio AI"}
           </span>
         </span>
-        <span className="font-mono text-[9px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition">
-          {LABELS[options.type]} →
-        </span>
+        {!isPending && (
+          <span className="font-mono text-[9px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition">
+            {LABELS[options.type]} →
+          </span>
+        )}
       </button>
     );
   }
 
-  // inline variant — sits next to a label
   return (
     <button
       type="button"
-      onClick={() => openStudioAI(options, router)}
+      onClick={handleClick}
+      disabled={isPending}
       className={cn(
         "flex items-center gap-1 font-mono text-[8px] tracking-widest uppercase",
         "text-muted-foreground hover:text-foreground transition",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         className
       )}
     >
-      <Sparkles className="w-2.5 h-2.5 flex-shrink-0" />
-      {LABELS[options.type]}
+      <Sparkles className={cn(
+        "w-2.5 h-2.5 flex-shrink-0",
+        isPending && "animate-pulse"
+      )} />
+      {isPending ? "Opening…" : LABELS[options.type]}
     </button>
   );
 }
