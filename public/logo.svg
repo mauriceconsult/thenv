@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" role="img" aria-label="Maxnovate Consultancy">
+  <title>Maxnovate Consultancy</title>
+
+  <!-- Mark: three rising parallelogram bars -->
+  <polygon points="0,52 14,0 28,0 14,52" fill="#1A3A5C"/>
+  <polygon points="18,52 32,0 46,0 32,52" fill="#C89B2A"/>
+  <polygon points="34,52 46,16 60,16 48,52" fill="#1A3A5C" opacity="0.35"/>
+
+  <!-- Wordmark -->
+  <text x="72" y="36"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="22"
+    font-weight="700"
+    letter-spacing="1"
+    fill="#1A3A5C">MAXNOVATE</text>
+
+  <!-- Tagline -->
+  <text x="73" y="52"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="9"
+    font-weight="400"
+    letter-spacing="3"
+    fill="#C89B2A">CONSULTANCY</text>
+</svg>

@@ -140,32 +140,4 @@ const WriterIdPage = async ({
 
 export default WriterIdPage;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// article-id-page.tsx  (app/editor/writers/[writerId]/articles/[articleId]/page.tsx)
-//
-// Changes: passes writer.title as beatTitle to ArticleDescriptionForm
-// so the Studio AI standfirst prompt includes full beat context.
-// ─────────────────────────────────────────────────────────────────────────────
 
-// (In your actual project this lives in a separate file.
-//  It is included here for reference alongside the writer page.)
-
-/*
-
-  // Add this query inside ArticleIdPage, after fetching the article:
-
-  const writer = await db.writer.findUnique({
-    where: { id: writerId },
-    select: { title: true },   // only need the title
-  });
-
-  // Then pass it into ArticleDescriptionForm:
-
-  <ArticleDescriptionForm
-    initialData={article}
-    writerId={writerId}
-    articleId={articleId}
-    beatTitle={writer?.title ?? undefined}   // ← new prop
-  />
-
-*/

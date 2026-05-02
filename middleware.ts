@@ -8,8 +8,11 @@ const isPublicRoute = createRouteMatcher([
   "/search(.*)",
   "/sign-in(.*)",
   "/sign-up(.*)",
-  "/api/uploadthing",        // UploadThing needs to be public (webhook + client validation)
-  "/api/webhook(.*)",        // Any payment/external webhooks
+  "/about",
+  "/services",
+  "/contact",
+  "/api/uploadthing", // UploadThing needs to be public (webhook + client validation)
+  "/api/webhook(.*)", // Any payment/external webhooks
 ]);
 
 const isEditorRoute = createRouteMatcher(["/editor(.*)"]);
