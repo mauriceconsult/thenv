@@ -38,13 +38,13 @@ export interface StudioAIOptions {
 // Add NEXT_PUBLIC_STUDIO_URL to Zuria's .env.local — same value as STUDIO_URL
 const STUDIO_URL = process.env.NEXT_PUBLIC_STUDIO_URL ?? "http://localhost:3000";
 
-const TYPE_ROUTE: Record<StudioGenerationType, string> = {
-  image:       "/image-generations",
-  description: "/text-generations",
-  headline:    "/text-generations",
-  script:      "/text-generations",
-  captions:    "/text-generations",
-};
+// const TYPE_ROUTE: Record<StudioGenerationType, string> = {
+//   image:       "/image-generations",
+//   description: "/text-generations",
+//   headline:    "/text-generations",
+//   script:      "/text-generations",
+//   captions:    "/text-generations",
+// };
 
 export async function openStudioAI(
   options: StudioAIOptions,

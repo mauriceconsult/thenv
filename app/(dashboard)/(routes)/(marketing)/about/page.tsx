@@ -55,7 +55,7 @@ export default function AboutPage() {
             <p className="text-base leading-relaxed">
               To accelerate the growth of African businesses and institutions by providing
               world-class consulting, building scalable digital platforms, and investing in
-              the entrepreneurs and ideas that will define the continent's next chapter.
+              the entrepreneurs and ideas that will define the continent&apos;s next chapter.
             </p>
           </div>
           <div>

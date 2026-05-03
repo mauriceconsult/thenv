@@ -189,7 +189,7 @@ export default function ServicesPage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="font-semibold text-sm mb-1">Ready to work together?</p>
-            <p className="text-sm text-muted-foreground">Let's start with a free discovery call.</p>
+            <p className="text-sm text-muted-foreground">Let&apos;s start with a free discovery call.</p>
           </div>
           <Link
             href="/contact"
