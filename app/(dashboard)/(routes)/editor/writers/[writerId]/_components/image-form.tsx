@@ -9,7 +9,6 @@ import { Writer } from "@prisma/client";
 import toast from "react-hot-toast";
 import { ImageIcon, Upload, Pencil, X } from "lucide-react";
 import { FileUpload } from "@/components/file-upload";
-import { isEditor } from "@/lib/editor";
 import { cn } from "@/lib/utils";
 import { StudioAIButton } from "@/components/studio-ai";
 
@@ -31,7 +30,7 @@ export const ImageForm = ({ initialData, writerId }: ImageFormProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
 
-  const canEdit = isEditor(userId);
+  const canEdit = !!userId;   // any signed-in user
   const hasImage = !!initialData.imageUrl;
 
   // ── Handlers ──────────────────────────────────────────────────────────────

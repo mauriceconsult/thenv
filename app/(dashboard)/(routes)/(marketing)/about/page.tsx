@@ -7,13 +7,13 @@ import Link from "next/link";
 const TEAM = [
   {
     initials: "FD",
-    name: "[Founder Name]",
+    name: "Maurice Maina",
     title: "Founder & Executive Director",
-    bio: "Leads Maxnovate's strategic direction, client relationships, and platform investments. Brings deep expertise in business advisory and East African markets.",
+    bio: "Leads Maxnovate's strategic direction, client relationships, and platform investments. Brings deep expertise in business, education, and technology.",
   },
   {
     initials: "CS",
-    name: "[Secretary Name]",
+    name: "Lucky Deus",
     title: "Company Secretary",
     bio: "Responsible for corporate governance, statutory compliance, and maintaining Maxnovate's legal and regulatory standing.",
   },
@@ -21,7 +21,7 @@ const TEAM = [
 
 const VALUES = [
   { title: "Integrity", body: "We operate with transparency and hold ourselves accountable to our clients, partners, and the communities we serve." },
-  { title: "Innovation", body: "We challenge conventional approaches and build solutions that are fit for the African context — not imported templates." },
+  { title: "Innovation", body: "We challenge conventional approaches to build agile solutions that add value and are fit for the global context." },
   { title: "Impact", body: "Every engagement is measured by tangible outcomes: growth, efficiency, revenue, and capability left behind." },
   { title: "Collaboration", body: "We work alongside our clients as partners, not vendors — sharing risk, knowledge, and commitment to results." },
 ];
@@ -29,18 +29,17 @@ const VALUES = [
 export default function AboutPage() {
   return (
     <main className="flex-1">
-
       {/* ── Header ── */}
       <section className="px-6 pt-20 pb-12 max-w-5xl mx-auto">
         <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
           About us
         </p>
         <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-6 max-w-2xl">
-          Built in Kampala. Built for Africa.
+          Create, learn, trade, and grow.
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-          Maxnovate Consultancy Company Limited is a strategy, technology, and investment advisory firm
-          helping organisations across East Africa grow, transform, and compete in a rapidly changing economy.
+          Maxnovate Consultancy Company Limited is a strategy, technology, and
+          investment advisory providing open, end-to-end solutions for individuals and organizations.
         </p>
       </section>
 
@@ -50,22 +49,26 @@ export default function AboutPage() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Target className="h-4 w-4 text-primary" />
-              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Mission</span>
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+                Mission
+              </span>
             </div>
             <p className="text-base leading-relaxed">
-              To accelerate the growth of African businesses and institutions by providing
-              world-class consulting, building scalable digital platforms, and investing in
-              the entrepreneurs and ideas that will define the continent&apos;s next chapter.
+              To accelerate the growth of businesses and institutions,
+              providing world-class consulting, building scalable digital
+              platforms, and investing in the entrepreneurs and ideas for the future.
             </p>
           </div>
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Eye className="h-4 w-4 text-primary" />
-              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Vision</span>
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+                Vision
+              </span>
             </div>
             <p className="text-base leading-relaxed">
-              A thriving, self-sufficient African private sector — where local expertise,
-              technology, and capital combine to solve local problems at scale.
+              A future where technology bridges ambition and opportunity for
+              people, businesses, and communities.
             </p>
           </div>
         </div>
@@ -78,9 +81,14 @@ export default function AboutPage() {
         </p>
         <div className="grid sm:grid-cols-2 gap-6">
           {VALUES.map(({ title, body }) => (
-            <div key={title} className="p-5 rounded-lg border border-border hover:border-primary/30 transition-colors">
+            <div
+              key={title}
+              className="p-5 rounded-lg border border-border hover:border-primary/30 transition-colors"
+            >
               <h3 className="font-semibold text-sm mb-2">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{body}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {body}
+              </p>
             </div>
           ))}
         </div>
@@ -94,14 +102,19 @@ export default function AboutPage() {
           </p>
           <div className="grid sm:grid-cols-2 gap-6">
             {TEAM.map(({ initials, name, title, bio }) => (
-              <div key={name} className="flex gap-4 p-5 bg-background rounded-lg border border-border">
+              <div
+                key={name}
+                className="flex gap-4 p-5 bg-background rounded-lg border border-border"
+              >
                 <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm flex-shrink-0">
                   {initials}
                 </div>
                 <div>
                   <p className="font-semibold text-sm">{name}</p>
                   <p className="text-xs text-muted-foreground mb-2">{title}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{bio}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {bio}
+                  </p>
                 </div>
               </div>
             ))}
@@ -126,20 +139,25 @@ export default function AboutPage() {
       {/* ── CTA ── */}
       <section className="px-6 py-10 border-t border-border">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <p className="text-sm text-muted-foreground">Want to know more about how we work?</p>
+          <p className="text-sm text-muted-foreground">
+            Want to know more about how we work?
+          </p>
           <div className="flex gap-3">
-            <Link href="/services"
-              className="inline-flex items-center gap-1.5 text-sm border border-border px-4 py-2 rounded-md hover:bg-accent transition-colors">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-1.5 text-sm border border-border px-4 py-2 rounded-md hover:bg-accent transition-colors"
+            >
               Our services
             </Link>
-            <Link href="/contact"
-              className="inline-flex items-center gap-1.5 text-sm bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1.5 text-sm bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
+            >
               Get in touch <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>
       </section>
-
     </main>
   );
 }

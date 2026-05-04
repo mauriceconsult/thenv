@@ -3,21 +3,18 @@
 import { useAuth, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { LogOut, ExternalLink } from "lucide-react";
+import { LogOut, ExternalLink, PenLine } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
-import { isEditor } from "@/lib/editor";
 import { Suspense } from "react";
 
 // ─── Platform switcher ────────────────────────────────────────────────────────
-// External links open in a new tab. Internal routes navigate normally.
-// Set available: false for apps not yet deployed — they render as muted text.
 
 const PLATFORM_APPS = [
-  { label: "Maxnovate",  href: "/",                         external: false, available: true  },
-  { label: "InstaSkul",  href: "https://instaskul.com",     external: true,  available: true  },
-  { label: "Studio AI",  href: "https://studio.maxnovate.com", external: true, available: true },
-  { label: "Vendly",     href: "https://vendly.com",        external: true,  available: true  },
+  { label: "Maxnovate",  href: "/",                            external: false, available: true },
+  { label: "InstaSkul",  href: "https://instaskul.com",        external: true,  available: true },
+  { label: "Studio AI",  href: "https://studio.maxnovate.com", external: true,  available: true },
+  { label: "Vendly",     href: "https://vendly.com",           external: true,  available: true },
 ] as const;
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -45,7 +42,7 @@ export const NavbarRoutes = () => {
         )}
       </div>
 
-      {/* Platform switcher — shown on non-editor pages */}
+      {/* Platform switcher — hidden inside editor */}
       {!isEditorPage && (
         <nav className="hidden lg:flex items-center gap-x-1">
           {PLATFORM_APPS.map((app) =>
@@ -77,6 +74,7 @@ export const NavbarRoutes = () => {
       <div className="flex items-center gap-x-2 ml-auto flex-shrink-0">
 
         {isEditorPage ? (
+          // Inside editor — show exit button
           <Link href="/">
             <Button size="sm" variant="ghost"
               className="font-mono text-[9px] tracking-widest uppercase">
@@ -84,16 +82,17 @@ export const NavbarRoutes = () => {
               Exit editor
             </Button>
           </Link>
-        ) : isEditor(userId) ? (
+        ) : userId ? (
+          // Any signed-in user — show write button
           <Link href="/editor/writers">
             <Button size="sm" variant="ghost"
               className="font-mono text-[9px] tracking-widest uppercase">
-              Editor mode
+              <PenLine className="h-3 w-3 mr-1.5" />
+              New post
             </Button>
           </Link>
         ) : null}
 
-        {/* Only show UserButton when user is signed in */}
         {userId && <UserButton afterSwitchSessionUrl="/" />}
       </div>
     </div>

@@ -1,6 +1,4 @@
-// app/(marketing)/page.tsx  — or app/page.tsx if you move the layout split
-//
-// This is now a PUBLIC page (no auth redirect).
+// This is a PUBLIC page (no auth redirect).
 // The news/blog feed lives at /news; editor dashboard at /editor.
 // Auth is only enforced on /editor/* routes via middleware or layout.
 
@@ -28,7 +26,7 @@ const PLATFORMS = [
   {
     label: "Vendly",
     tagline: "E-commerce",
-    description: "Smart commerce infrastructure for East African businesses and markets.",
+    description: "Smart commerce infrastructure for entrepreneurs.",
     href: "https://vendly.com",
     icon: ShoppingBag,
     available: true,
@@ -36,7 +34,7 @@ const PLATFORMS = [
   {
     label: "The Editorial",
     tagline: "News & Insights",
-    description: "Business news, analysis, and thought leadership from the Maxnovate network.",
+    description: "Business news, analysis, and thought leadership from your favorite freelance creators.",
     href: "/news",
     icon: BookOpen,
     available: true,
@@ -48,12 +46,12 @@ const SERVICES = [
   {
     icon: Briefcase,
     title: "Management Consulting",
-    description: "Strategy development, organisational capacity-building, and business advisory for growth-stage companies and institutions.",
+    description: "Strategy development, organisational capacity-building, and business advisory for entrepreneurs and institutions.",
   },
   {
     icon: BarChart2,
     title: "Financial & Investment Advisory",
-    description: "Financial consulting, project management, and investment structuring tailored to the East African market.",
+    description: "Financial consulting, project management, and investment structuring tailored to the needs of modern businesses.",
   },
   {
     icon: Globe,
@@ -74,11 +72,11 @@ export default function HomePage() {
         <h1 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 max-w-3xl">
           Consulting that{" "}
           <span className="text-primary">builds</span>{" "}
-          the next generation of African business.
+          the next generation business.
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mb-8 leading-relaxed">
           Maxnovate Consultancy is a strategy, technology, and investment advisory firm headquartered in Kampala.
-          We help organisations grow, transform, and compete — and we build platforms to accelerate that mission.
+          We power growth, transformation, and global leverage — and we build platforms to accelerate that mission.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
@@ -129,7 +127,7 @@ export default function HomePage() {
         </p>
         <h2 className="text-2xl font-bold mb-2">Beyond consulting.</h2>
         <p className="text-muted-foreground mb-8 max-w-xl text-sm leading-relaxed">
-          We build and invest in digital platforms across education, commerce, AI, and media — all connected under the Maxnovate network.
+          We build and invest in digital platforms across education, commerce, AI, and media — connected under the Maxnovate network.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {PLATFORMS.map(({ label, tagline, description, href, icon: Icon, available }) => (

@@ -1,6 +1,3 @@
-// app/(main)/news/page.tsx
-//
-// This is the old root page, relocated to /news.
 // Auth is still required here — readers must sign in to access the feed.
 // The public homepage (/) no longer requires auth.
 
@@ -43,7 +40,7 @@ const NewsPage = async () => {
         </div>
         <h1 className="text-2xl font-bold tracking-tight">The Editorial</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Business news, analysis, and insights from the Maxnovate network.
+          Business news, analysis, and insights from your favorite freelance creators.
         </p>
       </div>
 

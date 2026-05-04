@@ -22,7 +22,7 @@ const CONSULTING = [
     icon: BarChart2,
     title: "Financial & Investment Advisory",
     description:
-      "From financial modelling to investment structuring, we help businesses raise capital, allocate resources, and manage risk in the East African context.",
+      "From financial modelling to investment structuring, we help businesses raise capital, allocate resources, and manage risk.",
     deliverables: [
       "Financial analysis & modelling",
       "Investment readiness & pitch preparation",
@@ -99,11 +99,11 @@ export default function ServicesPage() {
           What we offer
         </p>
         <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-6 max-w-2xl">
-          Services designed for African growth.
+          Services designed for business growth.
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
           We offer consulting engagements and platform products across strategy, technology, finance,
-          and education. All grounded in a deep understanding of the East African business environment.
+          and education. All grounded in a deep understanding of the global business environment.
         </p>
       </section>
 
